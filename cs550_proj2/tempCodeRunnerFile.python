@@ -1,0 +1,11 @@
+import re
+
+log_file = '/var/log/auth.log'
+
+with open(log_file, 'r') as file:
+    for line in file:
+        if 'Failed password' in line:
+            # Extract relevant information from the log entry
+            ip_address = re.search(r'from (\d+\.\d+\.\d+\.\d+)', line).group(1)
+            username = re.search(r'user (\w+)', line).group(1)
+            print(f'Failed login attempt from {ip_address} with username {username}')
